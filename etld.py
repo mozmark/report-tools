@@ -31,30 +31,21 @@ class ETLDService:
                 else:
                     self.rules.append(split_into_labels(trimmed))
 
-        #print self.rules
-        #print '===='
-        #print self.exceptions
-
     def _find_matches(self, ruleset, labels):
-        #print 'find matches for', labels
         matches = []
         if len(labels) > 0:
             try:
                 if ruleset.index(labels):
                     matches.append(labels)
-                    #print 'normal labels match';
                     return matches
             except:
-                #print labels,'does not match'
                 wild = ['*']
                 try:
                     wild.extend(labels[1:])
                     if ruleset.index(wild):
                         matches.append(labels)
-                        #print 'wildcard labels match'
                         return matches
                 except:
-                    #print wild,'does not match'
                     pass
             matches.extend(self._find_matches(ruleset, labels[1:]))
         return matches
